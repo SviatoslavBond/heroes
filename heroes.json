@@ -1,0 +1,23 @@
+{
+  "heroes": [
+    {
+      "id": "80db09de-5b7f-4037-a9cd-ea9708b992a3",
+      "name": "Spider-Man",
+      "description": "i can fly like crazy bird",
+      "element": "fire"
+    },
+    {
+      "id": "364da741-a4bf-4606-9ade-bdb1e0cf025b",
+      "name": "Halk-s",
+      "description": "i destroy anything i see",
+      "element": "water"
+    }
+  ],
+  "filters": [
+    "all",
+    "fire",
+    "water",
+    "wind",
+    "earth"
+  ]
+}

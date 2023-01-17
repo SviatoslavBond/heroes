@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { v4 as uid } from "uuid";
 import { useHttp } from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,21 +30,12 @@ const HeroesFilters = () => {
 		if (arr.length === 0) {
 			return;
 		}
-		const filters = arr.map(({ filter, active }) => {
-			const activeClass = classNames({ "active": active })
-			// eslint-disable-next-line default-case
-			switch (filter) {
-				case 'all':
-					return <button key={uid()} onClick={() => dispatch(heroFilter(filter))} className={`btn btn-outline-dark ${activeClass}`}>Все</button>
-				case 'fire':
-					return <button key={uid()} onClick={() => dispatch(heroFilter(filter))} className={`btn btn-danger ${activeClass}`}>Огонь</button>
-				case "water":
-					return <button key={uid()} onClick={() => dispatch(heroFilter(filter))} className={`btn btn-primary ${activeClass}`}>Вода</button>
-				case "wind":
-					return <button key={uid()} onClick={() => dispatch(heroFilter(filter))} className={`btn btn-success ${activeClass}`}>Ветер</button>
-				case "earth":
-					return <button key={uid()} onClick={() => dispatch(heroFilter(filter))} className={`btn btn-secondary ${activeClass}`}>Земля</button>
-			}
+		const filters = arr.map(({ filter, active, generalClasses, label }) => {
+			const classes = classNames(generalClasses, { "active": active })
+			return <button
+				key={uid()}
+				onClick={() => dispatch(heroFilter(filter))}
+				className={classes}>{label}</button>
 		})
 		return filters;
 	}

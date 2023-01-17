@@ -7,17 +7,32 @@
       "element": "fire"
     },
     {
-      "id": "364da741-a4bf-4606-9ade-bdb1e0cf025b",
-      "name": "Halk-s",
-      "description": "i destroy anything i see",
-      "element": "water"
+      "id": "19211d56-102e-46f6-a24b-b5eb85230541",
+      "name": "x-mans",
+      "description": "asasdasda",
+      "element": "wind"
     }
   ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
+    {
+			"filter":"all",
+			"active":true
+		},
+  	{ 
+		"filter": "fire",
+		"active":false
+		},
+   	{
+		"filter": "water",
+		"active":false
+		},
+   	{ 
+		"filter":"wind",
+		"active":false
+		},
+   	{
+		"filter" :"earth",
+		"active":false
+		}
   ]
 }

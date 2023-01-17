@@ -2,7 +2,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { heroesFetching, heroesFetched, heroesFetchingError, heroGetFilters } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -13,7 +13,7 @@ import Spinner from '../spinner/Spinner';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-	const { heroes, heroesLoadingStatus, filters } = useSelector(state => state);
+	const { heroes, heroesLoadingStatus, currentFilter } = useSelector(state => state);
 	const dispatch = useDispatch();
 	const { request } = useHttp();
 	// console.log(heroes);
@@ -22,9 +22,6 @@ const HeroesList = () => {
 		request("http://localhost:3001/heroes")
 			.then(data => dispatch(heroesFetched(data)))
 			.catch(() => dispatch(heroesFetchingError()))
-
-		request('https://63c5b712f80fabd877eeb8e9.mockapi.io/api/heroes/heroes')
-			.then((data) => console.log(data))
 		// eslint-disable-next-line
 	}, []);
 
@@ -40,11 +37,11 @@ const HeroesList = () => {
 		}
 		let findHero = false;
 		const heroElements = arr.map((hero) => {
-			if (hero.element === filters) {
+			if (hero.element === currentFilter) {
 				findHero = true;
 				return <HeroesListItem key={hero.id} id={hero.id} hero={hero} />
 			}
-			if (filters === 'all') {
+			if (currentFilter === 'all') {
 				findHero = true;
 				return <HeroesListItem key={hero.id} id={hero.id} hero={hero} />
 			}
@@ -53,7 +50,6 @@ const HeroesList = () => {
 	}
 
 	const elements = renderHeroesList(heroes);
-	console.log(elements.length);
 	return (
 		<ul>
 			{elements.length === 0 ? <h5 className="text-center mt-5">Героев пока нет</h5> : elements}

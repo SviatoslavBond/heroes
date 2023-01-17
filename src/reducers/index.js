@@ -1,7 +1,8 @@
 const initialState = {
 	heroes: [],
 	heroesLoadingStatus: 'idle',
-	filters: 'all',
+	filters: [],
+	currentFilter: 'all'
 
 }
 
@@ -33,10 +34,17 @@ const reducer = (state = initialState, action) => {
 				...state,
 				heroes: [...state.heroes, action.payload],
 			}
+		case 'HERO_GET_FILTER':
+			return {
+				...state,
+				filters: [...action.payload]
+			}
 		case 'HERO_FILTER':
 			return {
 				...state,
-				filters: action.payload
+				currentFilter: action.payload,
+				filters: state.filters.map(f => f.filter === action.payload ? { ...f, active: true } : { ...f, active: false })
+
 			}
 
 		default: return state

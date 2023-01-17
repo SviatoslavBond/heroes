@@ -28,7 +28,14 @@ export const heroAdd = (hero) => {
 		payload: hero
 	}
 }
+export const heroGetFilters = (filters) => {
+	return {
+		type: 'HERO_GET_FILTER',
+		payload: filters
+	}
+}
 export const heroFilter = (filter) => {
+
 	return {
 		type: 'HERO_FILTER',
 		payload: filter

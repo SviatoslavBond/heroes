@@ -26,9 +26,8 @@ const HeroesListItem = ({ hero }) => {
 			elementClassName = 'bg-warning bg-gradient';
 	}
 	const deleteHero = () => {
-
 		request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-			.then(data => dispatch(heroDelete(hero)))
+			.then(() => dispatch(heroDelete(hero)))
 			.catch(() => dispatch(heroesFetchingError()))
 	}
 

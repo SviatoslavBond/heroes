@@ -1,48 +1,59 @@
 {
   "heroes": [
     {
-      "id": "80db09de-5b7f-4037-a9cd-ea9708b992a3",
+      "id": "414d4f10-af2b-446d-8fb1-d964d6190edb",
       "name": "Spider-Man",
-      "description": "i can fly like crazy bird",
-      "element": "fire"
+      "description": "wgarg",
+      "element": "water"
     },
     {
-      "id": "19211d56-102e-46f6-a24b-b5eb85230541",
-      "name": "x-mans",
-      "description": "asasdasda",
-      "element": "wind"
+      "id": "ca7332c0-b87a-4741-8f44-8f6c17a7b07a",
+      "name": "Sviat Bondar",
+      "description": "sdasd",
+      "element": "water"
+    },
+    {
+      "id": "b7df7761-90b3-4e7f-8b93-f87af375eb74",
+      "name": "adass",
+      "description": "sdsad",
+      "element": "fire"
     }
   ],
   "filters": [
     {
-			"filter":"all",
-			"active":true,
-			"label":"Все",
-			"generalClasses":"btn btn-outline-dark"
-		},
-  	{ 
-		"filter": "fire",
-		"active":false,
-		"label":"Огонь",
-		"generalClasses":"btn btn-danger"
-		},
-   	{
-		"filter": "water",
-		"active":false,
-		"label":"Вода",
-		"generalClasses":"btn btn-primary"
-		},
-   	{ 
-		"filter":"wind",
-		"active":false,
-		"label":"Ветер",
-		"generalClasses":"btn btn-success"
-		},
-   	{
-		"filter" :"earth",
-		"active":false,
-		"label":"Земля",
-		"generalClasses":"btn btn-secondary"
-		}
+      "id": 1,
+      "filter": "all",
+      "active": true,
+      "label": "Все",
+      "generalClasses": "btn btn-outline-dark"
+    },
+    {
+      "id": 2,
+      "filter": "fire",
+      "active": false,
+      "label": "Огонь",
+      "generalClasses": "btn btn-danger"
+    },
+    {
+      "id": 3,
+      "filter": "water",
+      "active": false,
+      "label": "Вода",
+      "generalClasses": "btn btn-primary"
+    },
+    {
+      "id": 4,
+      "filter": "wind",
+      "active": false,
+      "label": "Ветер",
+      "generalClasses": "btn btn-success"
+    },
+    {
+      "id": 5,
+      "filter": "earth",
+      "active": false,
+      "label": "Земля",
+      "generalClasses": "btn btn-secondary"
+    }
   ]
 }

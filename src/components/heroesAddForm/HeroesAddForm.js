@@ -1,40 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { v4 as uid } from "uuid";
 import { useHttp } from '../../hooks/http.hook';
 import { useDispatch } from 'react-redux';
-import { heroAdd } from '../../actions';
+import { heroAdd } from '../heroesList/heroSlice';
+import { useSelector } from "react-redux";
+import { useValid } from "../../hooks/validato.hook";
+import { selectAll } from "../heroesFilters/filtersSlice";
 
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
 
 const HeroesAddForm = () => {
-	const [filters, setFilters] = useState([]);
-	const [heroName, setHeroName] = useState('');
-	const [heroDescribe, setHeroDescribe] = useState('');
-	const [heroSuperpower, setHeroSuperpower] = useState('');
-	const [nameDirty, setNameDirty] = useState(false);
-	const [describeDirty, setDescribeDirty] = useState(false);
-	const [superPowerDirty, setSuperPowerDirty] = useState(false);
-	const [errorName, setErrorName] = useState('This field is required');
-	const [errorDescribe, setErrorDescribe] = useState('This field is required');
-	const [errorPower, setErrorPower] = useState('This field is required');
-	const [formValid, setFormValid] = useState(false);
+	const filters = useSelector(selectAll)
+	const {
+		setFormValid,
+		blurHandler,
+		setToInitialStateOfForm,
+		changeHandler,
+		heroName,
+		heroDescribe,
+		heroSuperpower,
+		nameDirty,
+		describeDirty,
+		superPowerDirty,
+		errorName,
+		errorDescribe,
+		errorPower,
+		formValid
+	} = useValid()
 	const { request } = useHttp();
 	const dispatch = useDispatch();
-
-
-	useEffect(() => {
-		request("http://localhost:3001/filters")
-			.then(filters => setFilters(filters))
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
 
 	useEffect(() => {
 		if (errorName || errorDescribe || errorPower) {
@@ -42,78 +35,22 @@ const HeroesAddForm = () => {
 		} else {
 			setFormValid(true);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [errorName, errorDescribe, errorPower])
-
-	const blurHandler = (e) => {
-		switch (e.target.name) {
-			case 'name':
-				setNameDirty(true);
-				break;
-			case 'text':
-				setDescribeDirty(true);
-				break;
-			case 'element':
-				setSuperPowerDirty(true);
-				break;
-			default:
-		}
-	}
 
 	const submitHandler = (e) => {
 		e.preventDefault();
+		const hero = {
+			id: uid(),
+			name: heroName,
+			description: heroDescribe,
+			element: heroSuperpower
+		};
+		const json = JSON.stringify(hero);
 
-		if (heroName && heroDescribe && heroSuperpower) {
-			const hero = {
-				id: uid(),
-				name: heroName,
-				description: heroDescribe,
-				element: heroSuperpower
-			};
-			const json = JSON.stringify(hero);
-
-			request("http://localhost:3001/heroes", 'POST', json)
-				.then(hero => dispatch(heroAdd(hero)))
-				.then(() => setToInitialStateOfForm())
-		}
-	}
-	const setToInitialStateOfForm = () => {
-		setHeroName('');
-		setHeroDescribe('');
-		setHeroSuperpower('');
-		setDescribeDirty(false);
-		setSuperPowerDirty(false);
-		setNameDirty(false);
-		setErrorName('This field is required');
-		setErrorDescribe('This field is required');
-		setErrorPower('This field is required');
-	}
-
-	const changeHandler = (e) => {
-		// eslint-disable-next-line default-case
-		switch (e.target.name) {
-			case 'name':
-				if (e.target.value.length < 5) {
-					setErrorName('Name must have min 5 symbols')
-				} else {
-					setErrorName(false)
-				}
-				setHeroName(e.target.value)
-				break;
-			case 'text':
-				if (e.target.value.length < 5) {
-					setErrorDescribe('Description your hero must have min 5 symbols')
-				} else {
-					setErrorDescribe(false)
-				}
-				setHeroDescribe(e.target.value);
-				break;
-			case 'element':
-				if (e.target.value !== 'Я владею элементом...') {
-					setErrorPower(false);
-				}
-				setHeroSuperpower(e.target.value)
-				break;
-		}
+		request("http://localhost:3001/heroes", 'POST', json)
+			.then(hero => dispatch(heroAdd(hero)))
+			.then(() => setToInitialStateOfForm())
 	}
 
 	return (
@@ -156,18 +93,12 @@ const HeroesAddForm = () => {
 					id="element"
 					name="element">
 					<option >Я владею элементом...</option>
-					{filters.map(f => {
-						// eslint-disable-next-line default-case
-						switch (f) {
-							case 'fire':
-								return <option key={uid()} value="fire">Огонь</option>
-							case 'water':
-								return <option key={uid()} value="water">Вода</option>
-							case 'wind':
-								return <option key={uid()} value="wind">Ветер</option>
-							case 'earth':
-								return <option key={uid()} value="earth">Земля</option>
+					{filters.map(({ label, filter }) => {
+						if (filter === 'all') {
+							// eslint-disable-next-line array-callback-return
+							return;
 						}
+						return <option key={uid()} value={filter}>{label}</option>
 					})}
 				</select>
 				{(superPowerDirty && errorPower) && <div className="text-danger"> {errorPower}</div>}

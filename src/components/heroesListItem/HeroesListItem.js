@@ -1,4 +1,4 @@
-import { heroDelete, heroesFetchingError } from '../../actions';
+import { deleteHeroByID } from '../heroesList/heroSlice'
 import { useDispatch } from 'react-redux';
 import { useHttp } from '../../hooks/http.hook';
 
@@ -6,7 +6,6 @@ const HeroesListItem = ({ hero }) => {
 	const { name, description, element, id } = hero
 	const { request } = useHttp();
 	const dispatch = useDispatch();
-
 
 	let elementClassName;
 	switch (element) {
@@ -25,10 +24,10 @@ const HeroesListItem = ({ hero }) => {
 		default:
 			elementClassName = 'bg-warning bg-gradient';
 	}
+
 	const deleteHero = () => {
-		request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-			.then(() => dispatch(heroDelete(hero)))
-			.catch(() => dispatch(heroesFetchingError()))
+		dispatch(deleteHeroByID(id))
+
 	}
 
 	return (
